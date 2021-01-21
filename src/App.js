@@ -1,25 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import React, {useState} from 'react'
+import Form from './Components/Form'
+import { API ,KEY } from './config'
+import Output from './Components/Output'
 
-function App() {
+
+export default function App() {
+const [data, setData] = useState([])
+
+  const searchGiphyByName = async (name) =>{
+  const responce = await fetch(API+name+KEY+'&limit=5')
+  const request = await responce.json()
+  setData(request.data)
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+  <h1>GIPHY</h1>
+  <Form
+   search={searchGiphyByName}
+  />
+  <Output
+    data = {data}
+  />
     </div>
-  );
+  )
+  
 }
-
-export default App;
+  
